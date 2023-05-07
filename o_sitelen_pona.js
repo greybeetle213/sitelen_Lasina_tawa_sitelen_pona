@@ -1,10 +1,35 @@
+font = "linjalipamanka"
+function ChangeFont(){
+    //console.log("running")
+    font = sel.value
+    document.getElementById("output").style.fontFamily = sel.value
+    document.getElementById("nasinsitelen").style.fontFamily = sel.value
+    Start()
+}
+
+String.prototype.replaceAt = function(index, replacement) {
+    return this.substring(0, index) + replacement + this.substring(index + 1);
+}
+
+function Init(){
+    sel = document.getElementById('nasinsitelen');
+
+    sel.addEventListener("change", ChangeFont);
+}
+function update_str(string, index, new_char) {
+    var a_list;
+    a_list = string.split("");
+    a_list[index] = new_char;
+    return a_list.join("");
+    }
+
 function Start(){
     document.getElementById("waitWarning").innerHTML = "mi ante e sitelen. o awen lon tenpo lili."
     setTimeout(MakeSitelenPona, 1)
 }
 function MakeSitelenPona(){
     var _pj;
-    console.log("started")
+    //console.log("started")
     var allWords, bestFit, containerGlyfs, currentFit, file, fineshedSpWord, nameToSP, nonContainableGlyfs, output, validWord, visualBestFit, weirdGlyfs;
 
     function _pj_snippets(container) {
@@ -31,15 +56,60 @@ function MakeSitelenPona(){
     containerGlyfs = ["anpa", "ijo", "jan", "kala", "kili", "kiwen", "ko", "lawa", "len", "lipu", "luka", "lupa", "mije", "nena", "pi", "pilin", "poka", "poki", "pona", "sitelen", "sona", "suno", "tomo", "toki", "tonsi", "walo", "wile"];
     nonContainableGlyfs = ["anu", "e", "en", "kama", "kepeken", "la", "li", "lon", "pi", "tan", "tawa", "sama"];
     weirdGlyfs = ["luka"];
-    allWords = ["a", "akesi", "ala", "alasa", "ale", "ali", "anpa", "ante", "anu", "awen", "en", "esun", "ijo", "ike", "ilo", "insa", "jaki", "jan", "jelo", "jo", "kala", "kalama", "kama", "kasi", "ken", "kepeken", "kili", "kin", "kiwen", "ko", "kon", "kule", "kulupu", "kute", "la", "lape", "laso", "lawa", "len", "lete", "lili", "linja", "lipu", "loje", "lon", "luka", "lukin", "lupa", "ma", "mama", "mani", "meli", "mi", "mije", "moku", "moli", "monsi", "mu", "mun", "musi", "mute", "namako", "nanpa", "nasa", "nasin", "nena", "ni", "nimi", "noka", "o", "oko", "olin", "ona", "open", "pakala", "pali", "palisa", "pan", "pana", "pi", "pilin", "pimeja", "pini", "pipi", "poka", "poki", "pona", "pu", "sama", "seli", "selo", "seme", "sewi", "sijelo", "sike", "sin", "sina", "sinpin", "sitelen", "sona", "soweli", "suli", "suno", "supa", "suwi", "tan", "taso", "tawa", "telo", "tenpo", "toki", "tomo", "tu", "uta", "utala", "walo", "wan", "waso", "wawa", "weka", "wile"];
+    allWords = ["a", "akesi", "ala", "alasa", "ale", "ali", "anpa", "ante", "anu", "awen", "en", "esun", "ijo", "ike", "ilo", "insa", "jaki", "jan", "jelo", "jo", "kala", "kalama", "kama", "kasi", "ken", "kepeken", "kili", "kin", "kiwen", "ko", "kon", "kule", "kulupu", "kute", "la", "lape", "laso", "lawa", "len", "lete", "lili", "linja", "lipu", "loje", "lon", "luka", "lukin", "lupa", "ma", "mama", "mani", "meli", "mi", "mije", "moku", "moli", "monsi", "mu", "mun", "musi", "mute", "nanpa", "nasa", "nasin", "nena", "ni", "nimi", "noka", "namako", "o", "oko", "olin", "ona", "open", "pakala", "pali", "palisa", "pan", "pana", "pi", "pilin", "pimeja", "pini", "pipi", "poka", "poki", "pona", "pu", "sama", "seli", "selo", "seme", "sewi", "sijelo", "sike", "sin", "sina", "sinpin", "sitelen", "sona", "soweli", "suli", "suno", "supa", "suwi", "tan", "taso", "tawa", "telo", "tenpo", "toki", "tomo", "tu", "uta", "utala", "walo", "wan", "waso", "wawa", "weka", "wile"];
     file = document.getElementById("input").value
-
-    function update_str(string, index, new_char) {
-    var a_list;
-    a_list = string.split("");
-    a_list[index] = new_char;
-    return a_list.join("");
+    if(document.getElementById("nasin").value==="allto<br>"){
+        quotemarks = `\`“”""‘’''\``.split("")
+        for(i=0; i<file.length;i++){
+            if(quotemarks.includes(file[i])){
+                console.log(i)
+                if(file[i-1]!=" " && file[i-1]!="\n"){
+                    file = file.replaceAt(i, "”XNEWLINEX")
+                }else{
+                    file = file.replaceAt(i, "“")
+                }
+            }
+        }
+        console.log(file)
+        file = file.replaceAll("\n\n", "XNEWLINEXXNEWLINEX")
+        file = file.replaceAll(" \n", " ")
+        file = file.replaceAll("\n", " ")
+        file = file.replaceAll("! ", "\n")
+        file = file.replaceAll("? ", "\n")
+        file = file.replaceAll(", ", " ")
+        file = file.replaceAll(". ", "\n")
+        file = file.replaceAll(": ", "\n")
+        file = file.replaceAll("XNEWLINEX", "\n")
+    }else{
+        quotemarks = `\`“”""‘’''\``.split("")
+        for(i=0; i<file.length;i++){
+            if(quotemarks.includes(file[i])){
+                console.log(i)
+                if(file[i-1]!=" " && file[i-1]!="\n"){
+                    file = file.replaceAt(i, "”")
+                }else{
+                    file = file.replaceAt(i, "“")
+                }
+            }
+        }
     }
+    file = file.replace(/ +(?= )/g,'')
+    if(document.getElementById("nasin").value==="allto "){
+        file = file.replaceAll("!", " ")
+        file = file.replaceAll("?", " ")
+        file = file.replaceAll(",", "")
+        file = file.replaceAll(".", " ")
+        file = file.replaceAll(":", " ")
+    }
+    if(document.getElementById("nasin").value === "allto."){
+        file = file.replaceAll("!", ".")
+        file = file.replaceAll("?", ".")
+        file = file.replaceAll(",", "")
+        file = file.replaceAll(",", "")
+
+
+    }
+
 
     function splitMora(word) {
     var splitword;
@@ -102,7 +172,7 @@ function MakeSitelenPona(){
     for (var word = 0, _pj_a = file.length; word < _pj_a; word += 1) {
     if (file[word].toLowerCase() !== file[word]) {
         nameToSP = splitMora(file[word].toLowerCase());
-        console.log("word" + nameToSP.toString());
+        //console.log("word" + nameToSP.toString());
         fineshedSpWord = "";
 
         while (true) {
@@ -125,7 +195,7 @@ function MakeSitelenPona(){
             }
 
             if (currentFit === 0) {
-            console.log(nameToSP)
+            //console.log(nameToSP)
             if (dictanaryWord[0] === nameToSP[0][0]) {
                 currentFit = 0.5;
             }
@@ -141,10 +211,15 @@ function MakeSitelenPona(){
             nameToSP.splice(0,1)        }
 
         if (bestFit[1] === 0.5) {
-            fineshedSpWord += "_" + bestFit[0];
-            console.log(nameToSP);
+            if(font == "linjalipamanka"){
+                fineshedSpWord += " " + bestFit[0];
+            }else{
+                fineshedSpWord += "_" + bestFit[0];
+
+            }
+            //console.log(nameToSP);
             nameToSP[0] = update_str(nameToSP[0], 0, "");
-            console.log(nameToSP);
+            //console.log(nameToSP);
 
             if (nameToSP[0] === "") {
                 nameToSP.splice(0,1)
@@ -161,9 +236,23 @@ function MakeSitelenPona(){
             nameToSP = nameToSP.slice(bestFit[1]);
 
             if (bestFit[1] !== splitMora(dictanaryWord).length) {
-            fineshedSpWord += "_" + bestFit[0] + "_.".repeat(visualBestFit);
+                switch(font){
+                    case "linjapona":
+                        fineshedSpWord += "_" + bestFit[0] + "_.".repeat(visualBestFit);
+                        break
+                    case "linjalipamanka":
+                        fineshedSpWord += " " + bestFit[0] + ".".repeat(visualBestFit);
+                    break
+                }
             } else {
-            fineshedSpWord += "_" + bestFit[0] + "_:";
+                switch(font){
+                    case "linjapona":
+                        fineshedSpWord += "_" + bestFit[0] + "_:";
+                        break
+                    case "linjalipamanka":
+                        fineshedSpWord += " " + bestFit[0] + " :";
+                        break
+                }
             }
         }
 
@@ -172,11 +261,17 @@ function MakeSitelenPona(){
         }
         }
 
-        console.log("[" + fineshedSpWord + "]");
+        //console.log("[" + fineshedSpWord + "]");
         file[word] = "[" + fineshedSpWord + "]";
     }
     }
-    console.log(file.join(" "))
+    //console.log(file)
+    file = file.join(" ")
+    //console.log(file)
+    if(document.getElementById("nasin").value==="allto<br>"){
+        file = file.replace(/ +(?= )/g,'')
+    }
+    file = file.replace("\n ",'\n')
     document.getElementById("waitWarning").innerHTML = "pini"
-    document.getElementById("output").value = file.join(" ");
+    document.getElementById("output").value = file;
 }

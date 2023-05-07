@@ -7,18 +7,40 @@
     <script src="o_sitelen_pona.js"></script>
     <style>
         @font-face {
-            font-family: 'linjasike';
+            font-family: 'linjapona';
             src: url('linja-pona-4.9.otf')
-
+        }
+        @font-face {
+            font-family: 'Fairfax';
+            src: url('FairfaxPonaHD.ttf')
+        }
+        @font-face {
+            font-family: 'linjalipamanka';
+            src: url('linjalipamanka.otf')
         }
     </style>
     <title>sitelen Lasina tawa sitelen pona</title>
 </head>
-<body>
+<body onload="Init()">
     <textarea id="input" rows="20" style="width: 100%; min-height: 45%;"></textarea>
     <br>
-    <button onclick="Start()">o sitelen pona</button> <span id="waitWarning"></span>
+    <button onclick="Start()" style="font-family: linjapona; font-size: 5vh; background-color: #00FF00;">o sitelen pona</button>
+    <span id="waitWarning" style="font-family: linjapona; font-size: 5vh"></span>
     <br>
-    <textarea id="output" rows="20" style="width: 100%; min-height: 45%; font-family: linjasike; font-size: 5vh"></textarea>
+    <span style="font-family: linjapona; font-size: 5vh"> sitelen lili (. : ? ! ,) la o seme: </span>
+    <select name="nasin" id="nasin" style="font-family: linjapona; font-size: 5vh" id = "nasin">
+        <option value="allto." style="font-family: linjapona; font-size: 5vh">o ante e sitelen "!" e sitelen "?" tawa sitelen ".". o weka e sitelen ","</option>
+        <option value="allto " style="font-family: linjapona; font-size: 5vh">o weka e sitelen ",". o ante e ale ante tawa weka lili</option>
+        <option value="allto<br>" style="font-family: linjapona; font-size: 5vh">o weka e ona. ona li sitelen "," ala la o sitelen lon anpa</option>
+        <option value="none" style="font-family: linjapona; font-size: 5vh">o ala</option>
+    </select>
+    <br>
+    <span style="font-family: linjapona; font-size: 5vh"> nasin sitelen: </span>
+    <select name="nasinsitelen" id="nasinsitelen" style="font-family: linjalipamanka; font-size: 5vh" id = "nasin">
+        <option value="linjalipamanka" style="font-family: linjalipamanka; font-size: 5vh">linja lipamanka</option>
+        <option value="linjapona" style="font-family: linjapona; font-size: 5vh">linjapona</option>
+    </select>
+    <br>
+    <textarea id="output" rows="20" style="width: 100%; min-height: 45%; font-family: linjalipamanka; font-size: 5vh"></textarea>
 </body>
 </html>
