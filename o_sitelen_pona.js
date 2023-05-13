@@ -141,7 +141,9 @@ function MakeSitelenPona(){
         }
     }
     }
-
+    if("abcdefghijklmnopqrstuvqxwyzABCDEFGHIJKLMNOPQRSTUVWXYZ     ".indexOf(file[file.length-1])==-1){
+        file = file.substring(0,file.length-1)
+    }
     file = file.split(" ");
     if (font != "Arial"){
         for (var word = 0, _pj_a = file.length - 1; word < _pj_a; word += 1) {
