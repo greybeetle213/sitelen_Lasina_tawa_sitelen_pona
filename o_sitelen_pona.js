@@ -17,7 +17,9 @@ function ChangeFont(){
     font = sel.value
     document.getElementById("output").style.fontFamily = sel.value
     document.getElementById("nasinsitelen").style.fontFamily = sel.value
-    Start()
+    if(document.getElementById("input").value != ""){
+        Start()
+    }
 }
 
 String.prototype.replaceAt = function(index, replacement) {
