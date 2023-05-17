@@ -91,7 +91,7 @@ function MakeSitelenPona(){
                     file = file.replaceAll("“", "「")
                 }else{
                     file = file.replaceAll("”", "toXNEWLINEX")
-                    file = file.replaceAll("“", "te")
+                    file = file.replaceAll("“", "te ")
                 }
             }
         }
@@ -137,7 +137,7 @@ function MakeSitelenPona(){
                     if(file[i-1]!=" " && file[i-1]!="\n"){
                         file = file.replaceAt(i, " to")
                     }else{
-                        file = file.replaceAt(i, "te")
+                        file = file.replaceAt(i, "te ")
                     }
                 }
             }
@@ -198,30 +198,34 @@ function MakeSitelenPona(){
     file = file.split(" ");
     if (font != "Arial"){
         for (var word = 0, _pj_a = file.length - 1; word < _pj_a; word += 1) {
-        if (word >= file.length - 1) {
-            break;
-        }
+            if (word >= file.length - 1) {
+                break;
+            }
 
-        validWord = true; 
-        if (_pj.in_es6(file[word], containerGlyfs) && !_pj.in_es6(file[word + 1], nonContainableGlyfs)) {
-            for (var letter, _pj_d = 0, _pj_b = file[word + 1], _pj_c = _pj_b.length; _pj_d < _pj_c; _pj_d += 1) {
-            letter = _pj_b[_pj_d];
+            validWord = true; 
+            
+            if ((_pj.in_es6(file[word], containerGlyfs) && !_pj.in_es6(file[word + 1], nonContainableGlyfs))||font == "fairfax") {
+                for (var letter, _pj_d = 0, _pj_b = file[word + 1], _pj_c = _pj_b.length; _pj_d < _pj_c; _pj_d += 1) {
+                    letter = _pj_b[_pj_d];
 
-            if (!_pj.in_es6(letter, "ptksmnljwaeiou")) {
-                validWord = false;
+                    if (!_pj.in_es6(letter, "ptksmnljwaeiou")) {
+                        validWord = false;
+                    }
+                }
+                if(file[word+1]=="ala" && file[word+2] == file[word]){
+                    validWord = false
+                }
+                if(font == "fairfax" && FairfaxGlyfs.indexOf(file[word]+"-"+file[word+1]) == -1){
+                    validWord = false
+                }
+                if ((!_pj.in_es6(file[word], weirdGlyfs)||font!="linjapona") && validWord) {
+                file[word] = file[word] + "-" + file.splice(word + 1,1)[0];
+                } else {
+                    if (validWord) {
+                        file[word] = file[word] + " -" + file.splice(word + 1,1)[0];
+                    }
+                }
             }
-            }
-            if(file[word+1]=="ala" && file[word+2] == file[word]){
-                validWord = false
-            }
-            if (!_pj.in_es6(file[word], weirdGlyfs) && validWord) {
-            file[word] = file[word] + "-" + file.splice(word + 1,1)[0];
-            } else {
-            if (validWord) {
-                file[word] = file[word] + " -" + file.splice(word + 1,1)[0];
-            }
-            }
-        }
         }
     }else{
         for(word = 0; word < file.length; word++){
@@ -281,13 +285,15 @@ function MakeSitelenPona(){
             nameToSP.splice(0,1)        }
 
         if (bestFit[1] === 0.5) {
-            if(font == "linjalipamanka"){
+            if(font == "linjalipamanka" || font == "fairfax"){
                 fineshedSpWord += " " + bestFit[0];
             }else if(font == "linjapona"){
                 fineshedSpWord += "_" + bestFit[0];
                 
             }else if(font == "Arial"){
                 fineshedSpWord += ":" + bestFit[0]+":";
+            }else if(font == "fairfax"){
+                
             }
             //console.log(nameToSP);
             nameToSP[0] = update_str(nameToSP[0], 0, "");
@@ -318,6 +324,9 @@ function MakeSitelenPona(){
                     case "Arial":
                         fineshedSpWord += " :" + bestFit[0] + ": .".repeat(visualBestFit);
                         break
+                    case "fairfax":
+                        fineshedSpWord += " " + bestFit[0] + ".".repeat(visualBestFit);
+                        break
                 }
             } else {
                 switch(font){
@@ -330,7 +339,9 @@ function MakeSitelenPona(){
                     case "Arial":
                         fineshedSpWord += " :" + bestFit[0] + ": :";
                         break
-
+                    case "fairfax":
+                        fineshedSpWord += " " + bestFit[0] + " ::";
+                        break
                 }
             }
         }
@@ -350,10 +361,13 @@ function MakeSitelenPona(){
     if(document.getElementById("nasin").value==="allto<br>"){
         file = file.replace(/ +(?= )/g,'')
     }
-    file = file.replace("\n ",'\n')
+    file = file.replaceAll("\n ",'\n')
     document.getElementById("waitWarning").innerHTML = "pini"
     if (font == "Arial"){
         file.replaceAll(":ali:", ":ale:")
+    }
+    if(font == "fairfax"){
+        file = file.replaceAll(".", "..")
     }
     document.getElementById("output").value = file;
 }
