@@ -209,7 +209,9 @@ function MakeSitelenPona(){
                 validWord = false;
             }
             }
-
+            if(file[word+1]=="ala" && file[word+2] == file[word]){
+                validWord = false
+            }
             if (!_pj.in_es6(file[word], weirdGlyfs) && validWord) {
             file[word] = file[word] + "-" + file.splice(word + 1,1)[0];
             } else {
