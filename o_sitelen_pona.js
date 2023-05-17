@@ -1,4 +1,17 @@
 font = "linjalipamanka"
+optionsMenu = false
+
+function openMenu(){
+    optionsMenu = !optionsMenu
+    if(optionsMenu){
+        document.getElementById("options").style.display = "initial"
+        document.getElementById("menuButton").innerHTML = "o lukin ala e nasin ante"
+    }else{
+        document.getElementById("options").style.display = "none"
+        document.getElementById("menuButton").innerHTML = "o lukin e nasin ante"
+    }
+}
+
 function ChangeFont(){
     //console.log("running")
     font = sel.value
@@ -54,7 +67,7 @@ function MakeSitelenPona(){
     _pj_snippets(_pj);
 
     containerGlyfs = ["anpa", "ijo", "jan", "kala", "kili", "kiwen", "ko", "lawa", "len", "lipu", "luka", "lupa", "mije", "nena", "pi", "pilin", "poka", "poki", "pona", "sitelen", "sona", "suno", "tomo", "toki", "tonsi", "walo", "wile"];
-    nonContainableGlyfs = ["o", "anu", "e", "en", "kama", "kepeken", "la", "li", "lon", "pi", "tan", "tawa", "sama"];
+    nonContainableGlyfs = ["o", "anu", "e", "en", "kama", "kepeken", "la", "li", "lon", "pi", "tan", "tawa", "sama", "te", "to"];
     weirdGlyfs = ["luka"];
     allWords = ["a", "akesi", "ala", "alasa", "ale", "ali", "anpa", "ante", "anu", "awen", "en", "esun", "ijo", "ike", "ilo", "insa", "jaki", "jan", "jelo", "jo", "kala", "kalama", "kama", "kasi", "ken", "kepeken", "kili", "kin", "kiwen", "ko", "kon", "kule", "kulupu", "kute", "la", "lape", "laso", "lawa", "len", "lete", "lili", "linja", "lipu", "loje", "lon", "luka", "lukin", "lupa", "ma", "mama", "mani", "meli", "mi", "mije", "moku", "moli", "monsi", "mu", "mun", "musi", "mute", "nanpa", "nasa", "nasin", "nena", "ni", "nimi", "noka", "namako", "o", "oko", "olin", "ona", "open", "pakala", "pali", "palisa", "pan", "pana", "pi", "pilin", "pimeja", "pini", "pipi", "poka", "poki", "pona", "pu", "sama", "seli", "selo", "seme", "sewi", "sijelo", "sike", "sin", "sina", "sinpin", "sitelen", "sona", "soweli", "suli", "suno", "supa", "suwi", "tan", "taso", "tawa", "telo", "tenpo", "toki", "tomo", "tu", "uta", "utala", "walo", "wan", "waso", "wawa", "weka", "wile"];
     mastodon_Glyfs = ["a", "n", "mute", "e", "o"]
@@ -70,6 +83,15 @@ function MakeSitelenPona(){
                     file = file.replaceAt(i, "“")
                 }
             }
+            if(usejqoutes){
+                if(font == "Arial" || font == "linjapona"){
+                    file = file.replaceAll("”", "」XNEWLINEX")
+                    file = file.replaceAll("“", "「")
+                }else{
+                    file = file.replaceAll("”", "toXNEWLINEX")
+                    file = file.replaceAll("“", "te")
+                }
+            }
         }
         console.log(file)
         file = file.replaceAll("\n\n", "XNEWLINEXXNEWLINEX")
@@ -83,13 +105,38 @@ function MakeSitelenPona(){
         file = file.replaceAll("XNEWLINEX", "\n")
     }else{
         quotemarks = `\`“”""‘’''\``.split("")
-        for(i=0; i<file.length;i++){
-            if(quotemarks.includes(file[i])){
-                console.log(i)
-                if(file[i-1]!=" " && file[i-1]!="\n"){
-                    file = file.replaceAt(i, "”")
-                }else{
-                    file = file.replaceAt(i, "“")
+        usejqoutes = document.getElementById("usejqoutes").checked
+        if(!usejqoutes){
+            for(i=0; i<file.length;i++){
+                if(quotemarks.includes(file[i])){
+                    console.log(i)
+                    if(file[i-1]!=" " && file[i-1]!="\n"){
+                        file = file.replaceAt(i, "”")
+                    }else{
+                        file = file.replaceAt(i, "“")
+                    }
+                }
+            }
+        } else if(font == "Arial" || font == "linjapona") {
+            for(i=0; i<file.length;i++){
+                if(quotemarks.includes(file[i])){
+                    console.log(i)
+                    if(file[i-1]!=" " && file[i-1]!="\n"){
+                        file = file.replaceAt(i, " 」")
+                    }else{
+                        file = file.replaceAt(i, "「")
+                    }
+                }
+            }
+        }else{
+            for(i=0; i<file.length;i++){
+                if(quotemarks.includes(file[i])){
+                    console.log(i)
+                    if(file[i-1]!=" " && file[i-1]!="\n"){
+                        file = file.replaceAt(i, " to")
+                    }else{
+                        file = file.replaceAt(i, "te")
+                    }
                 }
             }
         }
@@ -110,7 +157,7 @@ function MakeSitelenPona(){
 
 
     }
-
+    file.replaceAll("”", " ”")
 
     function splitMora(word) {
     var splitword;
@@ -141,8 +188,10 @@ function MakeSitelenPona(){
         }
     }
     }
-    if("abcdefghijklmnopqrstuvqxwyzABCDEFGHIJKLMNOPQRSTUVWXYZ     ".indexOf(file[file.length-1])==-1){
-        file = file.substring(0,file.length-1)
+    if("abcdefghijklmnopqrstuvqxwyzABCDEFGHIJKLMNOPQRSTUVWXYZ     ".indexOf(file[file.length-1])==-1 && font == "Arial"){
+        if(file[file.length-2]!=" "){
+            file = file.replaceAt(file.length-1, " "+file[file.length-1])
+        }
     }
     file = file.split(" ");
     if (font != "Arial"){
