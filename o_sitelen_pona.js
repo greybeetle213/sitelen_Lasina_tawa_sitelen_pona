@@ -163,7 +163,7 @@ function MakeSitelenPona(){
 
     function splitMora(word) {
     var splitword;
-    splitword = word.split("");
+    splitword = word.toLowerCase().split("");
 
     for (var letter = 0, _pj_a = splitword.length; letter < _pj_a; letter += 1) {
         if (letter >= splitword.length - 1) {
@@ -207,7 +207,6 @@ function MakeSitelenPona(){
             if ((_pj.in_es6(file[word], containerGlyfs) && !_pj.in_es6(file[word + 1], nonContainableGlyfs))||font == "fairfax") {
                 for (var letter, _pj_d = 0, _pj_b = file[word + 1], _pj_c = _pj_b.length; _pj_d < _pj_c; _pj_d += 1) {
                     letter = _pj_b[_pj_d];
-
                     if (!_pj.in_es6(letter, "ptksmnljwaeiou")) {
                         validWord = false;
                     }
@@ -244,111 +243,130 @@ function MakeSitelenPona(){
     }
 
     for (var word = 0, _pj_a = file.length; word < _pj_a; word += 1) {
-    if (file[word].toLowerCase() !== file[word]) {
+        tpword = true
+            for(letter = 0; letter < file[word].length; letter++){
+                if("ptksmnljwaeiouPTKSMNLJWAEIOU.!?',:“”「」- _".indexOf(file[word][letter])==-1){
+                    if(document.getElementById("makentpwordsbig").checked){
+                        file[word] = file[word].toUpperCase()
+                    }
+                    tpword = false
+                    break
+                }
+            }
+            if(file[word].indexOf("-") == -1){
+                for(morph = 0; morph < splitMora(file[word]).length; morph++){
+                    if(splitMora(file[word])[morph].length == 1 && "aeiounAEIOU.!?',:“”「」- _".indexOf(splitMora(file[word])[morph])==-1){
+                        if(document.getElementById("makentpwordsbig").checked){
+                            file[word] = file[word].toUpperCase()
+                        }
+                        tpword = false
+                        break
+                    }
+                }
+            }
+    if (file[word].toLowerCase() !== file[word] && tpword) {
         nameToSP = splitMora(file[word].toLowerCase());
         //console.log("word" + nameToSP.toString());
         fineshedSpWord = "";
-
         while (true) {
-        bestFit = ["", 0];
+            bestFit = ["", 0];
+            for (var dictanaryWord, _pj_d = 0, _pj_b = allWords, _pj_c = _pj_b.length; _pj_d < _pj_c; _pj_d += 1) {
+                dictanaryWord = _pj_b[_pj_d];
+                currentFit = 0;
 
-        for (var dictanaryWord, _pj_d = 0, _pj_b = allWords, _pj_c = _pj_b.length; _pj_d < _pj_c; _pj_d += 1) {
-            dictanaryWord = _pj_b[_pj_d];
-            currentFit = 0;
-
-            for (var Mora = 0, _pj_e = nameToSP.length; Mora < _pj_e; Mora += 1) {
-            if (splitMora(dictanaryWord)[Mora] === nameToSP[Mora]) {
-                currentFit += 1;
-            } else {
-                break;
-            }
-
-            if (currentFit === splitMora(dictanaryWord).length) {
-                break;
-            }
-            }
-
-            if (currentFit === 0) {
-            //console.log(nameToSP)
-            if (dictanaryWord[0] === nameToSP[0][0]) {
-                currentFit = 0.5;
-            }
-            }
-
-            if (currentFit > bestFit[1]) {
-            bestFit[1] = currentFit;
-            bestFit[0] = dictanaryWord;
-            }
-        }
-
-        if (bestFit[1] === 0) {
-            nameToSP.splice(0,1)        }
-
-        if (bestFit[1] === 0.5) {
-            if(font == "linjalipamanka" || font == "fairfax"){
-                fineshedSpWord += " " + bestFit[0];
-            }else if(font == "linjapona"){
-                fineshedSpWord += "_" + bestFit[0];
-                
-            }else if(font == "Arial"){
-                fineshedSpWord += ":" + bestFit[0]+":";
-            }else if(font == "fairfax"){
-                
-            }
-            //console.log(nameToSP);
-            nameToSP[0] = update_str(nameToSP[0], 0, "");
-            //console.log(nameToSP);
-
-            if (nameToSP[0] === "") {
-                nameToSP.splice(0,1)
-            }
-        }
-
-        if (bestFit[1] > 0.5) {
-            visualBestFit = bestFit[1];
-
-            if (nameToSP[0].length === 1) {
-            visualBestFit -= 1;
-            }
-
-            nameToSP = nameToSP.slice(bestFit[1]);
-
-            if (bestFit[1] !== splitMora(dictanaryWord).length) {
-                switch(font){
-                    case "linjapona":
-                        fineshedSpWord += "_" + bestFit[0] + "_.".repeat(visualBestFit);
-                        break
-                    case "linjalipamanka":
-                        fineshedSpWord += " " + bestFit[0] + ".".repeat(visualBestFit);
-                        break
-                    case "Arial":
-                        fineshedSpWord += " :" + bestFit[0] + ": .".repeat(visualBestFit);
-                        break
-                    case "fairfax":
-                        fineshedSpWord += " " + bestFit[0] + ".".repeat(visualBestFit);
-                        break
+                for (var Mora = 0, _pj_e = nameToSP.length; Mora < _pj_e; Mora += 1) {
+                if (splitMora(dictanaryWord)[Mora] === nameToSP[Mora]) {
+                    currentFit += 1;
+                } else {
+                    break;
                 }
-            } else {
-                switch(font){
-                    case "linjapona":
-                        fineshedSpWord += "_" + bestFit[0] + "_:";
-                        break
-                    case "linjalipamanka":
-                        fineshedSpWord += " " + bestFit[0] + " :";
-                        break
-                    case "Arial":
-                        fineshedSpWord += " :" + bestFit[0] + ": :";
-                        break
-                    case "fairfax":
-                        fineshedSpWord += " " + bestFit[0] + " ::";
-                        break
+
+                if (currentFit === splitMora(dictanaryWord).length) {
+                    break;
+                }
+                }
+
+                if (currentFit === 0) {
+                //console.log(nameToSP)
+                if (dictanaryWord[0] === nameToSP[0][0]) {
+                    currentFit = 0.5;
+                }
+                }
+
+                if (currentFit > bestFit[1]) {
+                bestFit[1] = currentFit;
+                bestFit[0] = dictanaryWord;
                 }
             }
-        }
 
-        if (nameToSP.length == 0) {
-            break;
-        }
+            if (bestFit[1] === 0) {
+                nameToSP.splice(0,1)        }
+
+            if (bestFit[1] === 0.5) {
+                if(font == "linjalipamanka" || font == "fairfax"){
+                    fineshedSpWord += " " + bestFit[0];
+                }else if(font == "linjapona"){
+                    fineshedSpWord += "_" + bestFit[0];
+                    
+                }else if(font == "Arial"){
+                    fineshedSpWord += ":" + bestFit[0]+":";
+                }else if(font == "fairfax"){
+                    
+                }
+                //console.log(nameToSP);
+                nameToSP[0] = update_str(nameToSP[0], 0, "");
+                //console.log(nameToSP);
+
+                if (nameToSP[0] === "") {
+                    nameToSP.splice(0,1)
+                }
+            }
+
+            if (bestFit[1] > 0.5) {
+                visualBestFit = bestFit[1];
+
+                if (nameToSP[0].length === 1) {
+                visualBestFit -= 1;
+                }
+
+                nameToSP = nameToSP.slice(bestFit[1]);
+
+                if (bestFit[1]-1 < splitMora(dictanaryWord).length) {
+                    switch(font){
+                        case "linjapona":
+                            fineshedSpWord += "_" + bestFit[0] + "_.".repeat(visualBestFit);
+                            break
+                        case "linjalipamanka":
+                            fineshedSpWord += " " + bestFit[0] + ".".repeat(visualBestFit);
+                            break
+                        case "Arial":
+                            fineshedSpWord += " :" + bestFit[0] + ": .".repeat(visualBestFit);
+                            break
+                        case "fairfax":
+                            fineshedSpWord += " " + bestFit[0] + ".".repeat(visualBestFit);
+                            break
+                    }
+                } else {
+                    switch(font){
+                        case "linjapona":
+                            fineshedSpWord += "_" + bestFit[0] + "_:";
+                            break
+                        case "linjalipamanka":
+                            fineshedSpWord += " " + bestFit[0] + " :";
+                            break
+                        case "Arial":
+                            fineshedSpWord += " :" + bestFit[0] + ": :";
+                            break
+                        case "fairfax":
+                            fineshedSpWord += " " + bestFit[0] + " ::";
+                            break
+                    }
+                }
+            }
+
+            if (nameToSP.length == 0) {
+                break;
+            }
         }
 
         //console.log("[" + fineshedSpWord + "]");
