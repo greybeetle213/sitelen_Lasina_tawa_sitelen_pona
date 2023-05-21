@@ -20,6 +20,9 @@ function ChangeFont(){
     if(document.getElementById("input").value != ""){
         Start()
     }
+    if(font == "selikiwen"){
+        font = "fairfax"
+    }
 }
 
 String.prototype.replaceAt = function(index, replacement) {
