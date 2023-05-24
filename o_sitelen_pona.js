@@ -343,7 +343,7 @@ function MakeSitelenPona(){
                             fineshedSpWord += " " + bestFit[0] + ".".repeat(visualBestFit);
                             break
                         case "Arial":
-                            fineshedSpWord += " :" + bestFit[0] + ": .".repeat(visualBestFit);
+                            fineshedSpWord += " :" + bestFit[0] + ":"+".".repeat(visualBestFit);
                             break
                         case "fairfax":
                             fineshedSpWord += " " + bestFit[0] + ".".repeat(visualBestFit);
