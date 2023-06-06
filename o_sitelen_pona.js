@@ -333,8 +333,9 @@ function MakeSitelenPona(){
                 }
 
                 nameToSP = nameToSP.slice(bestFit[1]);
-
-                if (bestFit[1]-1 < splitMora(dictanaryWord).length) {
+                console.log(bestFit[0])
+                console.log(bestFit[1])
+                if (bestFit[1] < splitMora(bestFit[0]).length) {
                     switch(font){
                         case "linjapona":
                             fineshedSpWord += "_" + bestFit[0] + "_.".repeat(visualBestFit);
