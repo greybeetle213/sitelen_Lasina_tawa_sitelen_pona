@@ -200,31 +200,33 @@ function MakeSitelenPona(){
     }
     file = file.split(" ");
     if (font != "Arial"){
-        for (var word = 0, _pj_a = file.length - 1; word < _pj_a; word += 1) {
-            if (word >= file.length - 1) {
-                break;
-            }
+        if(document.getElementById("mergeglyfs").checked){
+            for (var word = 0, _pj_a = file.length - 1; word < _pj_a; word += 1) {
+                if (word >= file.length - 1) {
+                    break;
+                }
 
-            validWord = true; 
-            
-            if ((_pj.in_es6(file[word], containerGlyfs) && !_pj.in_es6(file[word + 1], nonContainableGlyfs))||font == "fairfax") {
-                for (var letter, _pj_d = 0, _pj_b = file[word + 1], _pj_c = _pj_b.length; _pj_d < _pj_c; _pj_d += 1) {
-                    letter = _pj_b[_pj_d];
-                    if (!_pj.in_es6(letter, "ptksmnljwaeiou")) {
-                        validWord = false;
+                validWord = true; 
+                
+                if ((_pj.in_es6(file[word], containerGlyfs) && !_pj.in_es6(file[word + 1], nonContainableGlyfs))||font == "fairfax") {
+                    for (var letter, _pj_d = 0, _pj_b = file[word + 1], _pj_c = _pj_b.length; _pj_d < _pj_c; _pj_d += 1) {
+                        letter = _pj_b[_pj_d];
+                        if (!_pj.in_es6(letter, "ptksmnljwaeiou")) {
+                            validWord = false;
+                        }
                     }
-                }
-                if(file[word+1]=="ala" && file[word+2] == file[word]){
-                    validWord = false
-                }
-                if(font == "fairfax" && FairfaxGlyfs.indexOf(file[word]+"-"+file[word+1]) == -1){
-                    validWord = false
-                }
-                if ((!_pj.in_es6(file[word], weirdGlyfs)||font!="linjapona") && validWord) {
-                file[word] = file[word] + "-" + file.splice(word + 1,1)[0];
-                } else {
-                    if (validWord) {
-                        file[word] = file[word] + " -" + file.splice(word + 1,1)[0];
+                    if(file[word+1]=="ala" && file[word+2] == file[word]){
+                        validWord = false
+                    }
+                    if(font == "fairfax" && FairfaxGlyfs.indexOf(file[word]+"-"+file[word+1]) == -1){
+                        validWord = false
+                    }
+                    if ((!_pj.in_es6(file[word], weirdGlyfs)||font!="linjapona") && validWord) {
+                    file[word] = file[word] + "-" + file.splice(word + 1,1)[0];
+                    } else {
+                        if (validWord) {
+                            file[word] = file[word] + " -" + file.splice(word + 1,1)[0];
+                        }
                     }
                 }
             }
