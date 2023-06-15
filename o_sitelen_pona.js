@@ -193,11 +193,12 @@ function MakeSitelenPona(){
         }
     }
     }
-    if("abcdefghijklmnopqrstuvqxwyzABCDEFGHIJKLMNOPQRSTUVWXYZ     ".indexOf(file[file.length-1])==-1 && font == "Arial"){
+    if("abcdefghijklmnopqrstuvqxwyzABCDEFGHIJKLMNOPQRSTUVWXYZ+     ".indexOf(file[file.length-1])==-1 && font == "Arial"){
         if(file[file.length-2]!=" "){
             file = file.replaceAt(file.length-1, " "+file[file.length-1])
         }
     }
+    file = file.replaceAll("+", "-")
     file = file.split(" ");
     if (font != "Arial"){
         if(document.getElementById("mergeglyfs").checked){
