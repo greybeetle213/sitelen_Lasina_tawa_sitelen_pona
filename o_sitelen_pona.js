@@ -181,24 +181,44 @@ function MakeSitelenPona(){
     return splitword;
     }
 
-    for (var i = 0, _pj_a = file.length; i < _pj_a; i += 1) {
-    if (!_pj.in_es6(file[i], "abcdefghijklmnopqrstuvqxwyzABCDEFGHIJKLMNOPQRSTUVWXYZ     ")) {
-        if (file[i - 1] !== " ") {
-        file = update_str(file, i, " " + file[i]);
-        i += 1;
-        }
 
-        if (i !== file.length && file[i + 1] !== " ") {
-        file = update_str(file, i, file[i] + " ");
+    if(!document.getElementById("mergeglyfs").checked){
+        for (var i = 0, _pj_a = file.length; i < _pj_a; i += 1) {
+            if (!_pj.in_es6(file[i], "abcdefghijklmnopqrstuvqxwyzABCDEFGHIJKLMNOPQRSTUVWXYZ-     ")) {
+                if (file[i - 1] !== " ") {
+                file = update_str(file, i, " " + file[i]);
+                i += 1;
+                }
+        
+                if (i !== file.length && file[i + 1] !== " ") {
+                file = update_str(file, i, file[i] + " ");
+                }
+            }
+            }
+        if("abcdefghijklmnopqrstuvqxwyzABCDEFGHIJKLMNOPQRSTUVWXYZ-     ".indexOf(file[file.length-1])==-1 && font == "Arial"){
+            if(file[file.length-2]!=" "){
+                file = file.replaceAt(file.length-1, " "+file[file.length-1])
+            }
+        }
+    }else{
+        for (var i = 0, _pj_a = file.length; i < _pj_a; i += 1) {
+            if (!_pj.in_es6(file[i], "abcdefghijklmnopqrstuvqxwyzABCDEFGHIJKLMNOPQRSTUVWXYZ     ")) {
+                if (file[i - 1] !== " ") {
+                file = update_str(file, i, " " + file[i]);
+                i += 1;
+                }
+        
+                if (i !== file.length && file[i + 1] !== " ") {
+                file = update_str(file, i, file[i] + " ");
+                }
+            }
+            }
+        if("abcdefghijklmnopqrstuvqxwyzABCDEFGHIJKLMNOPQRSTUVWXYZ     ".indexOf(file[file.length-1])==-1 && font == "Arial"){
+            if(file[file.length-2]!=" "){
+                file = file.replaceAt(file.length-1, " "+file[file.length-1])
+            }
         }
     }
-    }
-    if("abcdefghijklmnopqrstuvqxwyzABCDEFGHIJKLMNOPQRSTUVWXYZ+     ".indexOf(file[file.length-1])==-1 && font == "Arial"){
-        if(file[file.length-2]!=" "){
-            file = file.replaceAt(file.length-1, " "+file[file.length-1])
-        }
-    }
-    file = file.replaceAll("+", "-")
     file = file.split(" ");
     if (font != "Arial"){
         if(document.getElementById("mergeglyfs").checked){
